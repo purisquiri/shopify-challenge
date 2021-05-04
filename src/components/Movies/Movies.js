@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import Nominations from "../Nomitations/Nominations";
+import React from "react";
+import { useDispatch } from "react-redux";
 
-export default function Movies({ movies }) {
-  const [nominate, setNominate] = useState([]);
+import { updateNominations } from "../Nominations/nominationsSlice";
 
-  const handleMovie = (movie) =>
-    setNominate((prevMovie) => [...prevMovie, movie]);
+export default function Movies({ movies, query }) {
+  const dispatch = useDispatch();
+
+  const handleMovie = (movie) => {
+    const { Title, Year, imdbID, Poster } = movie;
+    const payload = { title: Title, year: Year, id: imdbID, poster: Poster };
+
+    dispatch(updateNominations(payload));
+  };
+  //setNominate((prevMovie) => [...prevMovie, movie]);
+
   return (
     <div>
+      This are the movies for {query}
       {movies.Search?.map((movie) => (
-        <div>
+        <div key={movie.imdbID}>
           {movie.Title} ({movie.Year})
           <button onClick={() => handleMovie(movie)}>nominate</button>
           {/* <Nominations nominate={nominate} /> */}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Movies from "./components/Movies/Movies";
-import Nominations from "./components/Nomitations/Nominations";
+import Nominations from "./components/Nominations/Nominations";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -25,39 +25,27 @@ function App() {
       });
   };
 
-  // async function getData() {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://www.omdbapi.com/?s=${query}&apikey=${key}`
-  //     );
-
-  //     setData(response);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
     fetchData();
-    // getData();
   };
-  // console.log(query);
-  //console.log(data);
 
   return (
     <div className={styles.main}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="movie title"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </form>
-      <Movies movies={data} />
-      {/* <Nominations /> */}
+      <div className={styles.search}>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="search a title"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </form>
+      </div>
+      <div className={styles.infoMovies}>
+        <Movies movies={data} query={query} />
+        <Nominations />
+      </div>
     </div>
   );
 }
